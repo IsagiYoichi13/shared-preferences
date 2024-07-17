@@ -21,9 +21,7 @@ class _MyDmiCalculatorState extends State<MyDmiCalculator> {
   @override
   void initState() {
     super.initState();
-    _saveText();
     _loadText();
-    _removeText();
   }
 
   Future<void> _saveText() async {
@@ -61,7 +59,7 @@ class _MyDmiCalculatorState extends State<MyDmiCalculator> {
     super.dispose();
   }
 
-  void _submit() {
+  void _submit() async {
     if (_formKey.currentState!.validate()) {
       final double heightCm = double.tryParse(_heightController.text) ?? 0;
       final double weightKg = double.tryParse(_weightController.text) ?? 0;
@@ -84,7 +82,7 @@ class _MyDmiCalculatorState extends State<MyDmiCalculator> {
               "You have a higher than normal body weight. Try to exercise more.";
         } else {
           result = "Obesity";
-          information = "Please exercise more and less eat.";
+          information = "Please exercise more and eat less.";
         }
 
         setState(() {
@@ -92,6 +90,7 @@ class _MyDmiCalculatorState extends State<MyDmiCalculator> {
           _bmiCategory = result;
           _bmiInfo = information;
         });
+        await _saveText();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Please enter valid height and weight")),
@@ -100,47 +99,16 @@ class _MyDmiCalculatorState extends State<MyDmiCalculator> {
     }
   }
 
-  // void _remove() {
-  //   if (_formKey.currentState!.validate()) {
-  //     final double heightCm = double.tryParse(_heightController.text) ?? 0;
-  //     final double weightKg = double.tryParse(_weightController.text) ?? 0;
-
-  //     if (heightCm > 0 && weightKg > 0) {
-  //       final double bmi = weightKg /
-  //           ((heightCm / 100) * (heightCm / 100)); // Use height in cm directly
-
-  //       String result;
-  //       if (bmi < 18.5) {
-  //         result = "Underweight";
-  //         result =
-  //             "You have a lower than normal body weight. You can eat a bit more.";
-  //       } else if (bmi >= 18.5 && bmi <= 24.9) {
-  //         result =
-  //             "Healthy weight range\nYou have a normal body weight. Good job!";
-  //       } else if (bmi >= 25 && bmi <= 29.9) {
-  //         result = "Overweight";
-  //         result =
-  //             "You have a higher than normal body weight. Try to exercise more.";
-  //       } else {
-  //         result = "Obesity";
-  //       }
-  //       setState(() {
-  //         _bmiResult = "Your BMI is ${bmi.toStringAsFixed(2)}";
-  //         _bmiCategory = result;
-  //       });
-  //     } else {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(content: Text("Please enter valid height and weight")),
-  //       );
-  //     }
-  //   }
-  // }
-
   String? _heightValidator(String? height) {
     if (height == null || height.isEmpty) {
       return 'Please enter your height in centimeters';
-    } else if (!RegExp(r'^\d*\.?\d+$').hasMatch(height)) {
+    } else if (!RegExp(r'^\d+(\.\d+)?$').hasMatch(height)) {
       return "Please enter a valid height in centimeters";
+    } else {
+      final double heightValue = double.parse(height);
+      if (heightValue < 50 || heightValue > 300) {
+        return "Please enter a height between 50 cm and 300 cm";
+      }
     }
     return null;
   }
@@ -150,6 +118,11 @@ class _MyDmiCalculatorState extends State<MyDmiCalculator> {
       return 'Please enter your weight in kilograms';
     } else if (!RegExp(r'^\d+(\.\d+)?$').hasMatch(weight)) {
       return "Please enter a valid weight";
+    } else {
+      final double weightValue = double.parse(weight);
+      if (weightValue < 3 || weightValue > 500) {
+        return "Please enter a weight between 3 kg and 500 kg";
+      }
     }
     return null;
   }
@@ -171,11 +144,14 @@ class _MyDmiCalculatorState extends State<MyDmiCalculator> {
           child: Form(
             key: _formKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const Text(
                   "Calculate your BMI",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 20),
                 if (_bmiResult.isNotEmpty) ...[
