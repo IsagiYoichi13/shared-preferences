@@ -137,114 +137,169 @@ class _MyDmiCalculatorState extends State<MyDmiCalculator> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.blueGrey[900],
+        centerTitle: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(50),
+          ),
+        ),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const Text(
-                  "Calculate your BMI",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 20),
-                if (_bmiResult.isNotEmpty) ...[
-                  Text(
-                    _bmiResult,
-                    style: const TextStyle(color: Colors.white, fontSize: 24),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    _bmiCategory,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    _bmiInfo,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-                const SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  controller: _heightController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    label: Text("Height: Centimeters"),
-                    hintText: "Height: Centimeters",
-                    hintStyle: TextStyle(color: Colors.white),
-                    labelStyle: TextStyle(color: Colors.white),
-                    filled: false,
-                    fillColor: Colors.white,
-                  ),
-                  style: const TextStyle(color: Colors.white),
-                  validator: _heightValidator,
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                TextFormField(
-                  controller: _weightController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    label: Text("Weight: Kilograms"),
-                    hintText: "Weight: Kilograms",
-                    hintStyle: TextStyle(color: Colors.white),
-                    labelStyle: TextStyle(color: Colors.white),
-                    filled: false,
-                    fillColor: Colors.white,
-                  ),
-                  style: const TextStyle(color: Colors.white),
-                  validator: _weightValidator,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton.icon(
-                  onPressed: _submit,
-                  label: const Text(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(
+                'https://static.vecteezy.com/system/resources/thumbnails/038/987/289/small/ai-generated-majestic-mountain-peak-reflects-tranquil-sunset-over-water-generated-by-ai-photo.jpg'),
+            fit: BoxFit.fill,
+          ),
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(30, 55, 30, 100),
+            child: Container(
+              padding: const EdgeInsets.all(20.0),
+              decoration: BoxDecoration(
+                color: Colors.blueGrey[800],
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Calculate your BMI",
                       style: TextStyle(
-                          color: Colors.black,
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 50),
+                    if (_bmiResult.isNotEmpty) ...[
+                      Text(
+                        _bmiResult,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 24),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        _bmiCategory,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          fontSize: 17),
-                      'Calculate BMI'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                ElevatedButton.icon(
-                  onPressed: _removeText,
-                  label: const Text(
-                      style: TextStyle(
-                          color: Colors.black,
+                        ),
+                      ),
+                      Text(
+                        _bmiInfo,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          fontSize: 17),
-                      'Remove Data'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                  ),
+                        ),
+                      ),
+                    ],
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      child: TextFormField(
+                        controller: _heightController,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          label: Text("Height: Centimeters"),
+                          hintText: "Height: Centimeters",
+                          hintStyle: TextStyle(color: Colors.white),
+                          labelStyle: TextStyle(color: Colors.white),
+                          filled: false,
+                          fillColor: Colors.white,
+                        ),
+                        style: const TextStyle(color: Colors.white),
+                        validator: _heightValidator,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    TextFormField(
+                      controller: _weightController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        label: Text("Weight: Kilograms"),
+                        hintText: "Weight: Kilograms",
+                        hintStyle: TextStyle(color: Colors.white),
+                        labelStyle: TextStyle(color: Colors.white),
+                        filled: false,
+                        fillColor: Colors.white,
+                      ),
+                      style: const TextStyle(color: Colors.white),
+                      validator: _weightValidator,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                            child: ElevatedButton.icon(
+                              onPressed: _submit,
+                              icon: const Icon(
+                                Icons.calculate,
+                                color: Colors.black,
+                              ),
+                              label: const Text(
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17),
+                                  'Calculate BMI'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 15),
+                                shadowColor: Colors.black,
+                                elevation: 10,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          ElevatedButton.icon(
+                            onPressed: _removeText,
+                            icon: const Icon(Icons.delete, color: Colors.black),
+                            label: const Text(
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17),
+                                'Remove Data'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 15),
+                              shadowColor: Colors.black,
+                              elevation: 10,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
